@@ -1,0 +1,4 @@
+This application was created in order to help astronomers simplify the process of choosing dates for astronomical observations.
+For this task it uses AOQ Index - Astronomical Observations Quality index, which depends on the parameters of the atmosphere:
+wind speed, relative humidity and cloud area fraction.
+
