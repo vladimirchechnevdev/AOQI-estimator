@@ -64,18 +64,19 @@ def main():
 
                 for hour in range(7):
                     WS = forecast["properties"]["timeseries"][22 - curtime + timezone + hour]["data"]["instant"]["details"]["wind_speed"]
-                    RH = forecast["properties"]["timeseries"][22 - curtime + timezone + hour]["data"]["instant"]["details"]["relative_humidity"] / 160
-                    CAF = forecast["properties"]["timeseries"][22 - curtime + timezone + hour]["data"]["instant"]["details"]["cloud_area_fraction"] / 100
+                    RH = forecast["properties"]["timeseries"][22 - curtime + timezone + hour]["data"]["instant"]["details"]["relative_humidity"]
+                    CAF = forecast["properties"]["timeseries"][22 - curtime + timezone + hour]["data"]["instant"]["details"]["cloud_area_fraction"]
 
-                    AOQI = (1 - RH ** 4) * (1 - CAF ** 3) * max(0, (1 - (WS / 15) ** 4))
+                    AOQI = (1 - (RH / 160) ** 4) * (1 - (CAF / 100) ** 3) * max(0, (1 - (WS / 15) ** 4))
                     mean_AOQI += AOQI
                     AOQI_list.append(AOQI)
 
-                    report_data[0].append((curtime + hour) % 24)
+                    report_data[0].append((22 + hour) % 24)
                     report_data[1].append(WS)
                     report_data[2].append(round(RH, 1))
                     report_data[3].append(round(CAF, 1))
 
+                date = datetime.datetime.now().date()
                 mean_AOQI /= 7
                 clear()
                 print(f"The average Astronomical Observations Quality Index value for the upcoming night is {round(mean_AOQI, 3)}.\nThe highest value is {round(max(AOQI_list), 3)}, the least is {round(min(AOQI_list), 3)}.", "\n")
@@ -88,10 +89,10 @@ def main():
 
                 for hour in range((29 - curtime) % 24):
                     WS = forecast["properties"]["timeseries"][timezone + hour]["data"]["instant"]["details"]["wind_speed"]
-                    RH = forecast["properties"]["timeseries"][timezone + hour]["data"]["instant"]["details"]["relative_humidity"] / 160
-                    CAF = forecast["properties"]["timeseries"][timezone + hour]["data"]["instant"]["details"]["cloud_area_fraction"] / 100
+                    RH = forecast["properties"]["timeseries"][timezone + hour]["data"]["instant"]["details"]["relative_humidity"]
+                    CAF = forecast["properties"]["timeseries"][timezone + hour]["data"]["instant"]["details"]["cloud_area_fraction"]
 
-                    AOQI = (1 - RH ** 4) * (1 - CAF ** 3) * max(0, (1 - (WS / 15) ** 4))
+                    AOQI = (1 - (RH / 160) ** 4) * (1 - (CAF / 100) ** 3) * max(0, (1 - (WS / 15) ** 4))
                     mean_AOQI += AOQI
                     AOQI_list.append(AOQI)
 
@@ -116,10 +117,10 @@ def main():
                 # estimating AOQI for the further today's night
                 for hour in range(7):
                     WS = forecast["properties"]["timeseries"][22 - curtime + timezone + hour]["data"]["instant"]["details"]["wind_speed"]
-                    RH = forecast["properties"]["timeseries"][22 - curtime + timezone + hour]["data"]["instant"]["details"]["relative_humidity"] / 160
-                    CAF = forecast["properties"]["timeseries"][22 - curtime + timezone + hour]["data"]["instant"]["details"]["cloud_area_fraction"] / 100
+                    RH = forecast["properties"]["timeseries"][22 - curtime + timezone + hour]["data"]["instant"]["details"]["relative_humidity"]
+                    CAF = forecast["properties"]["timeseries"][22 - curtime + timezone + hour]["data"]["instant"]["details"]["cloud_area_fraction"]
 
-                    AOQI = (1 - RH ** 4) * (1 - CAF ** 3) * max(0, (1 - (WS / 15) ** 4))
+                    AOQI = (1 - (RH / 160) ** 4) * (1 - (CAF / 100) ** 3) * max(0, (1 - (WS / 15) ** 4))
                     mean_AOQI += AOQI
                     AOQI_list.append(AOQI)
 
@@ -128,6 +129,7 @@ def main():
                     report_data[2].append(round(RH, 1))
                     report_data[3].append(round(CAF, 1))
 
+                date = forecast["properties"]["timeseries"][22 - curtime + timezone]["time"][0:10]
                 mean_AOQI /= 7
                 clear()
                 print(f"The average Astronomical Observations Quality Index value for the upcoming night is {round(mean_AOQI, 3)}.\nThe highest value is {round(max(AOQI_list), 3)}, the least is {round(min(AOQI_list), 3)}.", "\n")
@@ -140,32 +142,40 @@ def main():
 
                 for hour in range(7):
                     WS = forecast["properties"]["timeseries"][46 - curtime + timezone + hour]["data"]["instant"]["details"]["wind_speed"]
-                    RH = forecast["properties"]["timeseries"][46 - curtime + timezone + hour]["data"]["instant"]["details"]["relative_humidity"] / 160
-                    CAF = forecast["properties"]["timeseries"][46 - curtime + timezone + hour]["data"]["instant"]["details"]["cloud_area_fraction"] / 100
+                    RH = forecast["properties"]["timeseries"][46 - curtime + timezone + hour]["data"]["instant"]["details"]["relative_humidity"]
+                    CAF = forecast["properties"]["timeseries"][46 - curtime + timezone + hour]["data"]["instant"]["details"]["cloud_area_fraction"]
 
-                    AOQI = (1 - RH ** 4) * (1 - CAF ** 3) * max(0, (1 - (WS / 15) ** 4))
+                    AOQI = (1 - (RH / 160) ** 4) * (1 - (CAF / 100) ** 3) * max(0, (1 - (WS / 15) ** 4))
                     mean_AOQI += AOQI
                     AOQI_list.append(AOQI)
 
-                    report_data[0].append((curtime + hour) % 24)
+                    report_data[0].append((22 + hour) % 24)
                     report_data[1].append(WS)
                     report_data[2].append(round(RH, 1))
                     report_data[3].append(round(CAF, 1))
 
+                date = forecast["properties"]["timeseries"][46 - curtime + timezone]["time"][0:10]
                 mean_AOQI /= 7
                 clear()
                 print(f"The average Astronomical Observations Quality Index value for the upcoming night is {round(mean_AOQI, 3)}.\nThe highest value is {round(max(AOQI_list), 3)}, the least is {round(min(AOQI_list), 3)}.", "\n")
 
         elif choice == "3":
             clear()
-            print("Here's the report for the choosen night:\n")
-            print("Hour | Wind Speed | Humidity | Cloud Fraction")
-            print("-----+------------+----------+-----------------")
 
-            for ho, ws, hu, caf in zip(report_data[0], report_data[1], report_data[2], report_data[3]):
-                print(f"{ho:>3}  | {ws:>3} m/s    | {hu:>5}%   | {caf:>5}%")
+            if len(report_data[0]) != 0:
 
-            print()
+                print(f"Here's the report for the choosen night of {date}:\n")
+                print("Hour | Wind Speed | Humidity | Cloud Fraction")
+                print("-----+------------+----------+-----------------")
+
+                for ho, ws, hu, caf in zip(report_data[0], report_data[1], report_data[2], report_data[3]):
+                    print(f"{ho:>3}  | {ws:>3} m/s    | {hu:>5}%   | {caf:>5}%")
+
+                print()
+
+            else:
+
+                print("You did not choose the night.")
 
         else:
             print("Incorrect choice. Enter the number 1-2")
